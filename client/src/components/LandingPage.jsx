@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, Clock, Shield } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, Shield, Award, ClipboardClock } from 'lucide-react';
 import { performLogin } from '../services/api';
 
 const LandingPage = () => {
@@ -29,7 +29,7 @@ const LandingPage = () => {
           </h1>
           
           <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Experience a fast, fluid, intuitive way to manage your timetable, track daily notices, and stay organised at Sydney Boys High School. Also check out NoteFlow.
+            Experience a fast, fluid, intuitive way to manage your timetable, track daily notices, and stay organised at Sydney Boys High School. 
         
           </p>
 
@@ -39,7 +39,7 @@ const LandingPage = () => {
             onClick={performLogin}
             className="group relative inline-flex items-center gap-3 px-8 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 text-lg font-semibold rounded-full hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors shadow-xl shadow-zinc-900/10 dark:shadow-white/10"
           >
-            Sign in to Synchron
+            Sign in with SBHS
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </motion.button>
         </motion.div>
@@ -59,12 +59,22 @@ const LandingPage = () => {
            <FeatureCard 
              icon={<Shield size={24} />}
              title="Daily Briefings"
-             desc="Instantly access daily notices filtered for your year group."
+             desc="Instantly access daily notices automatically filtered for your cohort."
            />
            <FeatureCard 
              icon={<Calendar size={24} />}
              title="Calendar Sync"
-             desc="Seamless integration with your school calendar events."
+             desc="Seamless integration with school calendar events."
+           />
+           <FeatureCard 
+             icon={<Award size={24} />}
+             title="Award Scheme"
+             desc="See your award scheme progress at a glance."
+           />
+           <FeatureCard 
+             icon={<ClipboardClock size={24} />}
+             title="Clipboard Integration"
+             desc="See your sporting events and extracurriculars on instantly"
            />
         </motion.div>
       </div>
