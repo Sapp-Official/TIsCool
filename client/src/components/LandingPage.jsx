@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, Clock, Shield, Award, ClipboardClock } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, Shield, Award, ClipboardList } from 'lucide-react';
 import { performLogin } from '../services/api';
 
 const LandingPage = () => {
@@ -72,7 +72,7 @@ const LandingPage = () => {
              desc="See your award scheme progress at a glance."
            />
            <FeatureCard 
-             icon={<ClipboardClock size={24} />}
+             icon={<ClipboardList size={24} />}
              title="Clipboard Integration"
              desc="See your sporting events and extracurriculars on instantly"
            />
