@@ -6,6 +6,7 @@ import CalendarView from './components/CalendarView';
 import DailyNotices from './components/DailyNotices';
 import AdminPanel from './components/AdminPanel';
 import LandingPage from './components/LandingPage';
+import Home from './components/Home';
 import { 
   fetchDayTimetable, 
   fetchDailyNews, 
@@ -236,6 +237,9 @@ function App() {
 
          <div className="p-4 md:p-8 max-w-7xl mx-auto">
             
+            {/* HOME VIEW */}
+            {currentView === 'home' && <Home />}
+
             {/* TIMETABLE VIEW */}
             {currentView === 'timetable' && (
                 <div className="space-y-6">

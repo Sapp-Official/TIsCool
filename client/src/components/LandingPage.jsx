@@ -74,7 +74,12 @@ const LandingPage = () => {
            <FeatureCard 
              icon={<ClipboardList size={24} />}
              title="Clipboard Integration"
-             desc="See your sporting events and extracurriculars on instantly"
+             desc="See your sporting events and extracurriculars in an instant."
+           />
+           <FeatureCard 
+             icon={<ClipboardList size={24} />}
+             title="Your Own Dashboard"
+             desc="Customise it to how you like it."
            />
         </motion.div>
       </div>
