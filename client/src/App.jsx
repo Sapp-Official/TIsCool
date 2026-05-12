@@ -238,7 +238,7 @@ function App() {
          <div className="p-4 md:p-8 max-w-7xl mx-auto">
             
             {/* HOME VIEW */}
-            {currentView === 'home' && <Home />}
+            {currentView === 'home' && <Home user={user} timetableData={timetable} notices={notices} />}
 
             {/* TIMETABLE VIEW */}
             {currentView === 'timetable' && (

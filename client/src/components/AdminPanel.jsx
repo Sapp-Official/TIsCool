@@ -41,6 +41,7 @@ const AdminPanel = ({ user }) => {
     const [statusFilter, setStatusFilter] = useState('All');
     const [viewingUserId, setViewingUserId] = useState(null); // ID only, derive user from list
     const [editingUser, setEditingUser] = useState(null); // User object for edit modal
+    const [selectedUsers, setSelectedUsers] = useState(new Set()); // For bulk actions
 
     useEffect(() => {
         if (user && ADMIN_IDS.includes(user.studentId)) {
@@ -86,9 +87,55 @@ const AdminPanel = ({ user }) => {
         try {
             await deleteUser(userId);
             setUsers(prev => prev.filter(u => u.id !== userId));
+            setSelectedUsers(prev => {
+                const newSet = new Set(prev);
+                newSet.delete(userId);
+                return newSet;
+            });
         } catch (err) {
             alert("Failed to delete user");
         }
+    };
+
+    const handleBulkDelete = async () => {
+        if (selectedUsers.size === 0) return;
+        if (!window.confirm(`Are you sure you want to delete ${selectedUsers.size} selected users? This cannot be undone.`)) return;
+
+        setLoading(true);
+        try {
+            // Delete sequentially to avoid overwhelming the server
+            for (const userId of selectedUsers) {
+                try {
+                    await deleteUser(userId);
+                } catch (e) {
+                    console.error(`Failed to delete ${userId}`, e);
+                }
+            }
+            setUsers(prev => prev.filter(u => !selectedUsers.has(u.id)));
+            setSelectedUsers(new Set());
+            alert("Bulk deletion completed.");
+        } catch (err) {
+            alert("Error during bulk delete");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const toggleSelectAll = (e) => {
+        if (e.target.checked) {
+            setSelectedUsers(new Set(filteredUsers.map(u => u.id)));
+        } else {
+            setSelectedUsers(new Set());
+        }
+    };
+
+    const toggleSelectUser = (userId) => {
+        setSelectedUsers(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(userId)) newSet.delete(userId);
+            else newSet.add(userId);
+            return newSet;
+        });
     };
 
     const handleUpdateRole = async (e) => {
@@ -463,12 +510,23 @@ const AdminPanel = ({ user }) => {
             <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-4 bg-zinc-50/50 dark:bg-zinc-900/50">
                 <div className="flex items-center gap-4 w-full md:w-auto justify-between">
                     <h3 className="font-semibold text-zinc-900 dark:text-white">User Management</h3>
-                    <button 
-                        onClick={handleExportCSV}
-                        className="text-xs font-medium px-3 py-1.5 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-lg transition-colors"
-                    >
-                        Export CSV
-                    </button>
+                    <div className="flex gap-2">
+                        {selectedUsers.size > 0 && (
+                            <button 
+                                onClick={handleBulkDelete}
+                                className="text-xs font-medium px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-400 rounded-lg transition-colors flex items-center gap-1"
+                            >
+                                <Trash2 size={14} />
+                                Delete ({selectedUsers.size})
+                            </button>
+                        )}
+                        <button 
+                            onClick={handleExportCSV}
+                            className="text-xs font-medium px-3 py-1.5 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-lg transition-colors"
+                        >
+                            Export CSV
+                        </button>
+                    </div>
                 </div>
                 <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
                     <select
@@ -508,6 +566,14 @@ const AdminPanel = ({ user }) => {
                 <table className="w-full text-left text-sm">
                     <thead className="bg-zinc-50 dark:bg-zinc-950 text-zinc-500 font-medium">
                         <tr>
+                            <th className="px-6 py-4 w-12 text-center">
+                                <input 
+                                    type="checkbox" 
+                                    className="rounded border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 focus:ring-blue-500"
+                                    checked={filteredUsers.length > 0 && selectedUsers.size === filteredUsers.length}
+                                    onChange={toggleSelectAll}
+                                />
+                            </th>
                             <th className="px-6 py-4">Name</th>
                             <th className="px-6 py-4">ID</th>
                             <th className="px-6 py-4">Role</th>
@@ -533,7 +599,15 @@ const AdminPanel = ({ user }) => {
                                 </td>
                             </tr>
                         ) : filteredUsers.map((user) => (
-                            <tr key={user.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
+                            <tr key={user.id} className={`hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors ${selectedUsers.has(user.id) ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''}`}>
+                                <td className="px-6 py-4 text-center">
+                                    <input 
+                                        type="checkbox" 
+                                        className="rounded border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 focus:ring-blue-500"
+                                        checked={selectedUsers.has(user.id)}
+                                        onChange={() => toggleSelectUser(user.id)}
+                                    />
+                                </td>
                                 <td className="px-6 py-4">
                                     <div>
                                         <div className="font-medium text-zinc-900 dark:text-white">{user.name}</div>
