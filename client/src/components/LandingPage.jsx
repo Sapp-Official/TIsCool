@@ -16,7 +16,7 @@ const LandingPage = () => {
                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                  </svg>
              </div>
-             <span className="font-semibold text-sm tracking-wide text-white">Synchron</span>
+             <span className="font-semibold text-sm tracking-wide text-white">Synchron v2</span>
           </div>
           <button 
              onClick={performLogin}
@@ -42,8 +42,8 @@ const LandingPage = () => {
               </div>
               
               <h1 className="text-5xl md:text-7xl font-semibold text-white mb-8 tracking-tight leading-tight">
-                The student portal, <br />
-                <span className="text-zinc-500">simplified.</span>
+                Your student portal, <br />
+                <span className="text-zinc-500">renewed.</span>
               </h1>
               
               <p className="text-lg md:text-xl text-zinc-400 mb-12 leading-relaxed max-w-2xl font-light">
@@ -59,7 +59,7 @@ const LandingPage = () => {
                     <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
                   </button>
                   <p className="text-xs text-zinc-600">
-                      Requires an active student account.
+                      Requires an active SBHS portal account.
                   </p>
               </div>
             </motion.div>
@@ -81,7 +81,7 @@ const LandingPage = () => {
                     </div>
                     <h3 className="text-lg font-medium text-white mb-3">Live Timetable</h3>
                     <p className="text-sm text-zinc-500 leading-relaxed">
-                        A real-time timeline of your day. Instantly see your current class, room changes, and teacher substitutions without clicking through menus.
+                        A real-time timeline of your day. Instantly see your current class, room changes, and teacher substitutions, modernised.
                     </p>
                 </div>
 
@@ -134,7 +134,7 @@ const LandingPage = () => {
 
         {/* Minimal Footer */}
         <div className="mt-40 pt-8 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between text-xs text-zinc-600">
-            <p>© {new Date().getFullYear()} Synchron. Unofficial client for SBHS.</p>
+            <p>© {new Date().getFullYear()} Synchron. Unofficially the official client for SBHS.</p>
             <div className="flex gap-4 mt-4 md:mt-0">
                 <a href="#" className="hover:text-zinc-400 transition-colors">Privacy</a>
                 <a href="#" className="hover:text-zinc-400 transition-colors">Terms</a>
